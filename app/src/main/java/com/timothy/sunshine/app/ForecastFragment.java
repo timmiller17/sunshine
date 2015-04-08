@@ -33,6 +33,8 @@ import java.util.ArrayList;
  */
 public class ForecastFragment extends Fragment {
 
+    private ArrayAdapter<String> mForecastAdapter;
+
     public ForecastFragment() {
     }
 
@@ -65,7 +67,7 @@ public class ForecastFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        ArrayAdapter<String> mForecastAdapter;
+
 
         ArrayList<String> weekForecast = new ArrayList<>();
         weekForecast.clear();
@@ -291,6 +293,16 @@ public class ForecastFragment extends Fragment {
             }
             // This will only happen if there was an error getting or parsing the forecast.
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(String[] result) {
+            if (result != null) {
+                mForecastAdapter.clear();
+                for (String dayForecastStr : result) {
+                    mForecastAdapter.add(dayForecastStr);
+                }
+            }
         }
     }
 }
