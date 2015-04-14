@@ -28,3 +28,6 @@ proguard/
 
 # .idea files (https://intellij-support.jetbrains.com/entries/23393067-How-to-manage-projects-under-Version-Control-Systems)
 .idea/workspace.xml
+
+# screenshots folder of app progress
+screenshots/
