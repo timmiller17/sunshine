@@ -62,9 +62,7 @@ public class ForecastFragment extends Fragment {
         int id = item.getItemId();
 
         if (id == R.id.action_refresh) {
-            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
-            String zip = settings.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));
-            new FetchWeatherTask().execute(zip);
+            updateWeather();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -74,19 +72,8 @@ public class ForecastFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-
-        ArrayList<String> weekForecast = new ArrayList<>();
-        weekForecast.clear();
-        weekForecast.add("Today - Sunny - 88 / 63");
-        weekForecast.add("Tomorrow - Foggy - 70 / 46");
-        weekForecast.add("Weds - Cloudy - 72 / 63");
-        weekForecast.add("Thurs - Rainy - 64 / 51");
-        weekForecast.add("Fri - Foggy - 70 / 46");
-        weekForecast.add("Sat - Sunny - 76 / 68");
-        weekForecast.add("Sun - Foggy - 67 / 46");
-
-
-        mForecastAdapter = new ArrayAdapter(getActivity(), R.layout.list_item_forecast, R.id.list_item_forecast_textview, weekForecast);
+        mForecastAdapter = new ArrayAdapter(getActivity(), R.layout.list_item_forecast,
+                R.id.list_item_forecast_textview, new ArrayList<String>());
 
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
@@ -105,6 +92,18 @@ public class ForecastFragment extends Fragment {
         });
 
         return rootView;
+    }
+
+    private void updateWeather() {
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String zip = settings.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));
+        new FetchWeatherTask().execute(zip);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        updateWeather();
     }
 
     public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
