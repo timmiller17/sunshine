@@ -9,4 +9,19 @@
     <string name="pref_location_label">Location</string>
     <string name="pref_location_key" translatable="false">location</string>
     <string name="pref_location_default" translatable="false">60031</string>
+
+    <string name="pref_unit_key" translatable="false">unit</string>
+    <string name="pref_unit_label">Units</string>
+    <string-array name="pref_unitType_entries"
+                    translatable="false">
+        <item>Metric</item>
+        <item>Imperial</item>
+    </string-array>
+    <string-array name="pref_unitType_values">
+        <item>metric</item>
+        <item>imperial</item>
+    </string-array>
+    <string name="pref_unit_default" translatable="false">imperial</string>
+
+
 </resources>
