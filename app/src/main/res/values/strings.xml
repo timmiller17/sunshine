@@ -23,5 +23,7 @@
     </string-array>
     <string name="pref_unit_default" translatable="false">imperial</string>
 
+    <string name="view_preferred_location">View Preferred Location On Map</string>
+
 
 </resources>
