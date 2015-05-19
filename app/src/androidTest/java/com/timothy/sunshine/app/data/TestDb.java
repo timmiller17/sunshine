@@ -15,6 +15,7 @@
  */
 package com.timothy.sunshine.app.data;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.test.AndroidTestCase;
@@ -112,22 +113,44 @@ public class TestDb extends AndroidTestCase {
     */
     public void testLocationTable() {
         // First step: Get reference to writable database
+        SQLiteDatabase db = new WeatherDbHelper(
+                this.mContext).getWritableDatabase();
+        assertEquals("database not opened", true, db.isOpen());
 
         // Create ContentValues of what you want to insert
         // (you can use the createNorthPoleLocationValues if you wish)
+        ContentValues testValues = TestUtilities.createNorthPoleLocationValues();
 
         // Insert ContentValues into database and get a row ID back
+        long locationRowId = db.insert(WeatherContract.LocationEntry.TABLE_NAME, null,
+                testValues);
+        assertTrue("Error: Failure to insert location values", locationRowId != -1);
 
         // Query the database and receive a Cursor back
+        //Cursor c = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
+        Cursor c = db.query(WeatherContract.LocationEntry.TABLE_NAME,  // Table to query
+                null, // all columns
+                null, // Columns for the "where" clause
+                null, // Values for the "where" clause
+                null, // columns to group by
+                null, // columns to filter by row groups
+                null  // sort order
+        );
+
+        assertTrue("Error: This means that the database has not been created correctly",
+                c.moveToFirst());
 
         // Move the cursor to a valid database row
+        c.moveToFirst();
 
         // Validate data in resulting Cursor with the original ContentValues
         // (you can use the validateCurrentRecord function in TestUtilities to validate the
         // query if you like)
+        TestUtilities.validateCurrentRecord("Validating record HAHA: ", c, testValues);
 
         // Finally, close the cursor and database
-
+        c.close();
+        db.close();
     }
 
     /*
