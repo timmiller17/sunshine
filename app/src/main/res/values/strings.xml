@@ -27,5 +27,12 @@
 
     <string name="action_share">Share</string>
 
+    // THIS SECTION ADDED FOR COMPATIBILITY WITH UDACITY PROVIDED CODE IN
+    // FetchWeatherTask.java, added in branch 4.07
+    <string name="pref_units_key" translatable="false">units</string>
+    <string name="pref_units_metric" translatable="false">metric</string>
+    <string name="pref_units_imperial" translatable="false">imperial</string>
+    // END COMPATIBILITY SECTION
+
 
 </resources>
