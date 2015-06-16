@@ -259,17 +259,45 @@ public class WeatherProvider extends ContentProvider {
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
         // Student: Start by getting a writable database
+        final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
 
         // Student: Use the uriMatcher to match the WEATHER and LOCATION URI's we are going to
         // handle.  If it doesn't match these, throw an UnsupportedOperationException.
+        final int match = sUriMatcher.match(uri);
+
+        int numDeletedRows;
+
+        // need to still return number of deleted rows if selection is null
+        if (selection == null) selection = "1";
+
+        switch (match) {
+
+            case WEATHER: {
+                numDeletedRows = db.delete(WeatherContract.WeatherEntry.TABLE_NAME,
+                        selection, selectionArgs);
+                break;
+            }
+
+            case LOCATION: {
+                numDeletedRows = db.delete(WeatherContract.LocationEntry.TABLE_NAME,
+                        selection, selectionArgs);
+                break;
+            }
+
+            default:
+                throw new UnsupportedOperationException("Unknown uri: " + uri);
+        }
 
         // Student: A null value deletes all rows.  In my implementation of this, I only notified
         // the uri listeners (using the content resolver) if the rowsDeleted != 0 or the selection
         // is null.
         // Oh, and you should notify the listeners here.
+        if (numDeletedRows != 0) {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
 
         // Student: return the actual rows deleted
-        return 0;
+        return numDeletedRows;
     }
 
     private void normalizeDate(ContentValues values) {
@@ -285,7 +313,38 @@ public class WeatherProvider extends ContentProvider {
             Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         // Student: This is a lot like the delete function.  We return the number of rows impacted
         // by the update.
-        return 0;
+
+        //see delete() for comments on structure
+        final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+
+        final int match = sUriMatcher.match(uri);
+
+        int numUpdatedRows;
+
+        switch (match) {
+
+            case WEATHER: {
+                normalizeDate(values);
+                numUpdatedRows = db.update(WeatherContract.WeatherEntry.TABLE_NAME,
+                        values, selection, selectionArgs);
+                break;
+            }
+
+            case LOCATION: {
+                numUpdatedRows = db.update(WeatherContract.LocationEntry.TABLE_NAME,
+                        values, selection, selectionArgs);
+                break;
+            }
+
+            default:
+                throw new UnsupportedOperationException("Unknown uri: " + uri);
+        }
+
+        if (numUpdatedRows != 0) {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+
+        return numUpdatedRows;
     }
 
     @Override
