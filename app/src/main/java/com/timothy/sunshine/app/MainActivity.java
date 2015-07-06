@@ -1,10 +1,8 @@
 package com.timothy.sunshine.app;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -49,9 +47,7 @@ public class MainActivity extends ActionBarActivity {
         }
         if (id == R.id.view_preferred_location) {
 
-            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-            String location = settings.getString(getString(R.string.pref_location_key),
-                    getString(R.string.pref_location_default));
+            String location = Utility.getPreferredLocation(this);
 
             Log.v(LOG_TAG, "location to send to ACTION_VIEW intent: " + location);
 
