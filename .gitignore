@@ -29,6 +29,11 @@ proguard/
 # .idea files (https://intellij-support.jetbrains.com/entries/23393067-How-to-manage-projects-under-Version-Control-Systems)
 .idea/workspace.xml
 .idea/gradle.xml
+.idea/
+
+# other Android Studio generated files I stopped tracking
+app/app.iml
+Sunshine.iml
 
 # screenshots folder of app progress
 screenshots/
