@@ -30,10 +30,10 @@ proguard/
 .idea/workspace.xml
 .idea/gradle.xml
 .idea/
+.idea/*
 
 # other Android Studio generated files I stopped tracking
-app/app.iml
-Sunshine.iml
+*.iml
 
 # screenshots folder of app progress
 screenshots/
